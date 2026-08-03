@@ -1,6 +1,6 @@
 package com.stringstack.ecommerce.security;
 
-import com.stringstack.ecommerce.repository.SessionRepository;
+import com.stringstack.ecommerce.repository.JwtTokenRepository;
 import com.stringstack.ecommerce.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,11 +20,11 @@ import java.util.Collections;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final SessionRepository sessionRepository;
+    private final JwtTokenRepository jwtTokenRepository;
 
-    public JwtAuthFilter(JwtService jwtService, SessionRepository sessionRepository) {
+    public JwtAuthFilter(JwtService jwtService, JwtTokenRepository jwtTokenRepository) {
         this.jwtService = jwtService;
-        this.sessionRepository = sessionRepository;
+        this.jwtTokenRepository = jwtTokenRepository;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
 
-            if (jwtService.isTokenValid(token) && sessionRepository.existsByJwtToken(token)) {
+            if (jwtService.isTokenValid(token) && jwtTokenRepository.existsByToken(token)) {
                 String email = jwtService.extractEmail(token);
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(email, null, Collections.emptyList());

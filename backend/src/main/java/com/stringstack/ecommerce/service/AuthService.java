@@ -4,11 +4,11 @@ import com.stringstack.ecommerce.dto.AuthResponse;
 import com.stringstack.ecommerce.dto.LoginRequest;
 import com.stringstack.ecommerce.dto.MessageResponse;
 import com.stringstack.ecommerce.dto.RegisterRequest;
-import com.stringstack.ecommerce.entity.Session;
+import com.stringstack.ecommerce.entity.JwtToken;
 import com.stringstack.ecommerce.entity.User;
 import com.stringstack.ecommerce.exception.AuthenticationException;
 import com.stringstack.ecommerce.exception.DuplicateResourceException;
-import com.stringstack.ecommerce.repository.SessionRepository;
+import com.stringstack.ecommerce.repository.JwtTokenRepository;
 import com.stringstack.ecommerce.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,17 +20,17 @@ public class AuthService {
     private static final String INVALID_CREDENTIALS = "Invalid email or password";
 
     private final UserRepository userRepository;
-    private final SessionRepository sessionRepository;
+    private final JwtTokenRepository jwtTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     public AuthService(
             UserRepository userRepository,
-            SessionRepository sessionRepository,
+            JwtTokenRepository jwtTokenRepository,
             PasswordEncoder passwordEncoder,
             JwtService jwtService) {
         this.userRepository = userRepository;
-        this.sessionRepository = sessionRepository;
+        this.jwtTokenRepository = jwtTokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
@@ -45,15 +45,15 @@ public class AuthService {
             throw new DuplicateResourceException("Email address is already registered");
         }
 
-        if (userRepository.existsByMobileNumber(request.getMobileNumber())) {
-            throw new DuplicateResourceException("Mobile number is already registered");
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new DuplicateResourceException("Username is already taken");
         }
 
         User user = new User();
-        user.setFullName(request.getFullName());
+        user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
-        user.setMobileNumber(request.getMobileNumber());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(User.Role.CUSTOMER);
 
         userRepository.save(user);
 
@@ -68,13 +68,16 @@ public class AuthService {
 
         String token = jwtService.generateToken(user.getEmail());
 
-        Session session = new Session();
-        session.setUser(user);
-        session.setJwtToken(token);
-        session.setExpiryTime(jwtService.getExpirationDate(token));
-        sessionRepository.save(session);
+        JwtToken jwtToken = new JwtToken();
+        jwtToken.setUserId(user.getUserId().longValue());
+        jwtToken.setToken(token);
+        jwtToken.setExpiresAt(jwtService.getExpirationDate(token));
+        jwtTokenRepository.save(jwtToken);
 
-        return new AuthResponse(token, session.getExpiryTime(), "Login successful");
+        AuthResponse.UserProfile userProfile =
+                new AuthResponse.UserProfile(user.getUserId(), user.getUsername(), user.getEmail());
+
+        return new AuthResponse(token, jwtToken.getExpiresAt(), "Login successful", userProfile);
     }
 
     @Transactional
@@ -83,11 +86,11 @@ public class AuthService {
             throw new AuthenticationException("Authentication token is required");
         }
 
-        if (!sessionRepository.existsByJwtToken(token)) {
+        if (!jwtTokenRepository.existsByToken(token)) {
             throw new AuthenticationException("Invalid or expired session");
         }
 
-        sessionRepository.deleteByJwtToken(token);
+        jwtTokenRepository.deleteByToken(token);
         return new MessageResponse("Logout successful");
     }
 }

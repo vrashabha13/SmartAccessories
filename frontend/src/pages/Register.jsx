@@ -4,9 +4,8 @@ import { register } from '../services/authApi';
 import { validateRegisterForm } from '../utils/validation';
 
 const initialForm = {
-  fullName: '',
+  username: '',
   email: '',
-  mobileNumber: '',
   password: '',
   confirmPassword: '',
 };
@@ -55,6 +54,7 @@ export default function Register() {
     <div className="page">
       <div className="card">
         <div className="brand" aria-label="SmartAccessories">
+          <img src="/logo.png" alt="" height="70" style={{ marginRight: 8, verticalAlign: 'middle' }} />
           Smart<span>Accessories</span>
         </div>
         <h1>Create Account</h1>
@@ -64,15 +64,16 @@ export default function Register() {
 
         <form onSubmit={handleSubmit} noValidate>
           <div className="form-group">
-            <label htmlFor="fullName">Full Name</label>
+            <label htmlFor="username">Username</label>
             <input
-              id="fullName"
-              name="fullName"
+              id="username"
+              name="username"
               type="text"
-              value={form.fullName}
+              value={form.username}
               onChange={handleChange}
+              placeholder="Enter your username"
             />
-            {fieldErrors.fullName && <p className="error-text">{fieldErrors.fullName}</p>}
+            {fieldErrors.username && <p className="error-text">{fieldErrors.username}</p>}
           </div>
 
           <div className="form-group">
@@ -83,20 +84,9 @@ export default function Register() {
               type="email"
               value={form.email}
               onChange={handleChange}
+              placeholder="Enter your email"
             />
             {fieldErrors.email && <p className="error-text">{fieldErrors.email}</p>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="mobileNumber">Mobile Number</label>
-            <input
-              id="mobileNumber"
-              name="mobileNumber"
-              type="text"
-              value={form.mobileNumber}
-              onChange={handleChange}
-            />
-            {fieldErrors.mobileNumber && <p className="error-text">{fieldErrors.mobileNumber}</p>}
           </div>
 
           <div className="form-group">
@@ -107,6 +97,7 @@ export default function Register() {
               type="password"
               value={form.password}
               onChange={handleChange}
+              placeholder="Create a strong password"
             />
             {fieldErrors.password && <p className="error-text">{fieldErrors.password}</p>}
           </div>
@@ -119,6 +110,7 @@ export default function Register() {
               type="password"
               value={form.confirmPassword}
               onChange={handleChange}
+              placeholder="Re-enter your password"
             />
             {fieldErrors.confirmPassword && (
               <p className="error-text">{fieldErrors.confirmPassword}</p>
@@ -126,7 +118,7 @@ export default function Register() {
           </div>
 
           <button type="submit" className="btn" disabled={loading}>
-            {loading ? 'Registering...' : 'Register'}
+            {loading ? 'Creating account...' : 'Create Account'}
           </button>
         </form>
 

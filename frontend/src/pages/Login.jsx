@@ -37,7 +37,7 @@ export default function Login() {
 
     try {
       const response = await login(form.email.trim(), form.password);
-      setAuthToken(response.token);
+      setAuthToken(response.token, response.user);
       navigate('/home');
     } catch (error) {
       if (error.errors) {
@@ -54,6 +54,7 @@ export default function Login() {
     <div className="page">
       <div className="card">
         <div className="brand" aria-label="SmartAccessories">
+          <img src="/logo.png" alt="" height="70" style={{ marginRight: 8, verticalAlign: 'middle' }} />
           Smart<span>Accessories</span>
         </div>
         <h1>Log In</h1>

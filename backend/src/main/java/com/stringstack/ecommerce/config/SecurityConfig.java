@@ -40,7 +40,9 @@ public class SecurityConfig {
                 .logout(logout -> logout.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/categories", "/products/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/logout").authenticated()
+                        .requestMatchers("/cart/**", "/profile", "/orders/**", "/payments/**").authenticated()
                         .anyRequest().denyAll())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

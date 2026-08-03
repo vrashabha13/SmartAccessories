@@ -44,3 +44,14 @@ export async function logout(token) {
 
   return handleResponse(response);
 }
+
+export async function fetchProfile(token) {
+  const response = await fetch(`${API_BASE_URL}/profile`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return handleResponse(response);
+}

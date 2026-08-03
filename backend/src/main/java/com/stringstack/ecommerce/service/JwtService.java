@@ -1,5 +1,7 @@
 package com.stringstack.ecommerce.service;
 
+import com.stringstack.ecommerce.entity.User;
+import com.stringstack.ecommerce.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -17,12 +19,15 @@ public class JwtService {
 
     private final SecretKey secretKey;
     private final long expirationMs;
+    private final UserRepository userRepository;
 
     public JwtService(
             @Value("${jwt.secret}") String secret,
-            @Value("${jwt.expiration-ms}") long expirationMs) {
+            @Value("${jwt.expiration-ms}") long expirationMs,
+            UserRepository userRepository) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.expirationMs = expirationMs;
+        this.userRepository = userRepository;
     }
 
     public String generateToken(String email) {
@@ -39,6 +44,12 @@ public class JwtService {
 
     public String extractEmail(String token) {
         return parseClaims(token).getSubject();
+    }
+
+    public Integer getUserIdByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getUserId();
     }
 
     public boolean isTokenValid(String token) {
