@@ -44,4 +44,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleIllegalStateException(IllegalStateException ex) {
         return ResponseEntity.badRequest().body(new ErrorResponse(ex.getMessage(), null));
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("Internal Server Error: " + ex.getMessage(), null));
+    }
 }

@@ -13,8 +13,9 @@ Full-stack authentication application with React frontend, Spring Boot backend, 
 
 - Host: `localhost`
 - Port: `3306`
-- Username: `root`
-- Database: `stringstack-ecommerce`
+- `Username: `root`
+- Password: `vrasdfgh`
+- Database: `stringstack-ecommerce
 
 Tables (`Users`, `Sessions`) are created automatically via Hibernate on first backend startup.
 

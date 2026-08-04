@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { fetchCategories, fetchProductsByCategory } from '../services/productApi';
 import { fetchCartCount, addToCart } from '../services/cartApi';
-import { FiShoppingCart, FiUser, FiChevronDown, FiLogOut, FiPlus, FiCheck } from 'react-icons/fi';
+import { FiShoppingCart, FiUser, FiChevronDown, FiLogOut, FiPlus, FiCheck, FiShoppingBag } from 'react-icons/fi';
 
 export default function Home() {
   const { token, user, logout } = useAuth();
@@ -124,6 +124,10 @@ export default function Home() {
                 <button className="dropdown-item" onClick={() => { setDropdownOpen(false); navigate('/profile'); }}>
                   <FiUser size={16} />
                   Profile
+                </button>
+                <button className="dropdown-item" onClick={() => { setDropdownOpen(false); navigate('/orders'); }}>
+                  <FiShoppingBag size={16} />
+                  Orders
                 </button>
                 <button className="dropdown-item logout" onClick={handleLogout}>
                   <FiLogOut size={16} />

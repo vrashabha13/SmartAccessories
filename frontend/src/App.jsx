@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
+import Orders from './pages/Orders';
 
 function RootRedirect() {
   const { isAuthenticated } = useAuth();
@@ -30,6 +31,14 @@ export default function App() {
         element={
           <ProtectedRoute>
             <Cart />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/orders"
+        element={
+          <ProtectedRoute>
+            <Orders />
           </ProtectedRoute>
         }
       />

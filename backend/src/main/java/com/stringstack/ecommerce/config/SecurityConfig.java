@@ -42,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/categories", "/products/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/logout").authenticated()
-                        .requestMatchers("/cart/**", "/profile", "/orders/**", "/payments/**").authenticated()
+                        .requestMatchers("/cart/**", "/profile", "/orders/**", "/payments/**", "/api/orders/**", "/api/orders").authenticated()
                         .anyRequest().denyAll())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
