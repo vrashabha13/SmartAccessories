@@ -34,11 +34,13 @@ export async function login(email, password) {
 }
 
 export async function logout(token) {
+  const currentToken = localStorage.getItem('authToken') || token;
+  if (!currentToken) return;
   const response = await fetch(`${API_BASE_URL}/logout`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${currentToken}`,
     },
   });
 
@@ -46,10 +48,14 @@ export async function logout(token) {
 }
 
 export async function fetchProfile(token) {
+  const currentToken = localStorage.getItem('authToken') || token;
+  if (!currentToken) {
+    throw new Error('Authentication token is missing. Access denied.');
+  }
   const response = await fetch(`${API_BASE_URL}/profile`, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${currentToken}`,
     },
   });
 

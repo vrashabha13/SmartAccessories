@@ -25,6 +25,31 @@ export function AuthProvider({ children }) {
     }
   }, [token]);
 
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const currentToken = localStorage.getItem(TOKEN_KEY);
+      if (!currentToken && token) {
+        setToken(null);
+        setUser(null);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    const interval = setInterval(() => {
+      const currentToken = localStorage.getItem(TOKEN_KEY);
+      if (!currentToken && token) {
+        setToken(null);
+        setUser(null);
+      }
+    }, 200);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearInterval(interval);
+    };
+  }, [token]);
+
   const login = (newToken, userData) => {
     localStorage.setItem(TOKEN_KEY, newToken);
     localStorage.setItem(USER_KEY, JSON.stringify(userData));

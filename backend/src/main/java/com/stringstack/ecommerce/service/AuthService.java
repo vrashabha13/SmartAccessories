@@ -75,7 +75,7 @@ public class AuthService {
         jwtTokenRepository.save(jwtToken);
 
         AuthResponse.UserProfile userProfile =
-                new AuthResponse.UserProfile(user.getUserId(), user.getUsername(), user.getEmail());
+                new AuthResponse.UserProfile(user.getUserId(), user.getUsername(), user.getEmail(), user.getRole().name());
 
         return new AuthResponse(token, jwtToken.getExpiresAt(), "Login successful", userProfile);
     }

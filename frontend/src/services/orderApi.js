@@ -14,11 +14,15 @@ async function handleResponse(response) {
 }
 
 export async function fetchOrderHistory(token) {
+  const currentToken = localStorage.getItem('authToken') || token;
+  if (!currentToken) {
+    throw new Error('Authentication token is missing. Access denied.');
+  }
   const response = await fetch(`${API_BASE_URL}/api/orders`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${currentToken}`,
     },
   });
 

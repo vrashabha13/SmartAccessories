@@ -29,7 +29,7 @@ public class UserController {
             String email = jwtService.extractEmail(token);
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("User not found"));
-            return ResponseEntity.ok(new AuthResponse.UserProfile(user.getUserId(), user.getUsername(), user.getEmail()));
+            return ResponseEntity.ok(new AuthResponse.UserProfile(user.getUserId(), user.getUsername(), user.getEmail(), user.getRole().name()));
         }
         throw new RuntimeException("Unauthorized");
     }

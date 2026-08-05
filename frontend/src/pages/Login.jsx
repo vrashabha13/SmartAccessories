@@ -96,6 +96,9 @@ export default function Login() {
         <div className="link-row">
           New user? <Link to="/register">Create an account</Link>
         </div>
+        <div className="link-row" style={{ marginTop: 12, fontSize: '0.85rem' }}>
+          Are you an Administrator? <Link to="/admin/login">Admin Portal</Link>
+        </div>
       </div>
     </div>
   );

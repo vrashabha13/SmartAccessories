@@ -11,9 +11,13 @@ async function handleResponse(response) {
 }
 
 function getHeaders(token) {
+  const currentToken = localStorage.getItem('authToken') || token;
+  if (!currentToken) {
+    throw new Error('Authentication token is missing. Access denied.');
+  }
   return {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${currentToken}`,
   };
 }
 

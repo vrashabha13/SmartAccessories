@@ -36,11 +36,13 @@ public class AuthResponse {
         private final Integer userId;
         private final String username;
         private final String email;
+        private final String role;
 
-        public UserProfile(Integer userId, String username, String email) {
+        public UserProfile(Integer userId, String username, String email, String role) {
             this.userId = userId;
             this.username = username;
             this.email = email;
+            this.role = role;
         }
 
         public Integer getUserId() {
@@ -53,6 +55,10 @@ public class AuthResponse {
 
         public String getEmail() {
             return email;
+        }
+
+        public String getRole() {
+            return role;
         }
     }
 }

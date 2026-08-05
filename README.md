@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# E-Commerce Registration and Login Application
-
-Full-stack authentication application with React frontend, Spring Boot backend, MySQL database, JWT authentication, and session management.
-=======
 # SmartAccessories
 
 SmartAccessories is a full-stack e-commerce web application built with React for the frontend and Spring Boot for the backend. The app supports user registration and login, product browsing by category, cart management, checkout with Razorpay, and order history.
@@ -25,56 +20,37 @@ SmartAccessories is a full-stack e-commerce web application built with React for
 - Backend: Spring Boot, Spring Security, JWT, Hibernate/JPA
 - Database: MySQL
 - Payments: Razorpay
->>>>>>> f7997f2 (Updated Readme file)
 
 ## Prerequisites
 
 - Java 17+
 - Maven 3.8+
 - Node.js 18+
-<<<<<<< HEAD
-- MySQL running on `localhost:3306` with database `stringstack-ecommerce`
-
-## Database Configuration
-
-- Host: `localhost`
-- Port: `3306`
-- `Username: `root`
-- Password: `vrasdfgh`
-- Database: `stringstack-ecommerce
-
-Tables (`Users`, `Sessions`) are created automatically via Hibernate on first backend startup.
-=======
 - MySQL running on localhost:3306
+
+## Local Configuration
+
+Sensitive values such as the database password, JWT secret, and Razorpay credentials should be kept in a local-only file.
+
+1. Copy the example file:
+   ```bash
+   cp backend/src/main/resources/application-local.properties.example backend/src/main/resources/application-local.properties
+   ```
+2. Fill in your local values in the copied file.
+3. Keep that file untracked locally; it is ignored by Git.
 
 ## Database Setup
 
-Create a MySQL database named `mobile_accessories` and update the database credentials in the backend configuration file if needed.
->>>>>>> f7997f2 (Updated Readme file)
+Create a MySQL database named `mobile_accessories` and update the local credentials in the copied configuration file.
 
 ## Backend Setup
 
 ```bash
 cd backend
-<<<<<<< HEAD
-mvn spring-boot:run
-```
-
-Backend runs at `http://localhost:8080`
-
-### API Endpoints
-
-| Method | Endpoint   | Description              |
-|--------|------------|--------------------------|
-| POST   | `/register`| Register a new user      |
-| POST   | `/login`   | Authenticate and get JWT |
-| POST   | `/logout`  | Invalidate session (Bearer token required) |
-=======
 ./mvnw spring-boot:run
 ```
 
 The backend runs at http://localhost:8080.
->>>>>>> f7997f2 (Updated Readme file)
 
 ## Frontend Setup
 
@@ -84,23 +60,6 @@ npm install
 npm run dev
 ```
 
-<<<<<<< HEAD
-Frontend runs at `http://localhost:5173`
-
-## Pages
-
-- `/register` — User registration form
-- `/login` — User login form
-- `/home` — Protected page displaying "Welcome User"
-
-## Security Features
-
-- BCrypt password encryption
-- JWT-based authentication
-- Server-side session tracking in MySQL
-- Protected routes and APIs
-- Generic login error messages
-=======
 The frontend runs at http://localhost:5173.
 
 ## Main Application Routes
@@ -140,14 +99,9 @@ The frontend runs at http://localhost:5173.
 - `POST /payments/verify` — verify a completed payment
 - `GET /orders` — retrieve order history for the logged-in user
 
-## Security Features
+## Security Notes
 
 - Password hashing with BCrypt
 - JWT-based authentication
 - Protected routes and protected API access
-- Secure payment verification flow
-
-## Notes
-
-The application is designed for local development and uses MySQL as its persistence layer. Make sure your database is running before starting the backend.
->>>>>>> f7997f2 (Updated Readme file)
+- Secret values should stay in local configuration and never be committed to Git

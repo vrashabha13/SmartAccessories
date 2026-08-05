@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { fetchCategories, fetchProductsByCategory } from '../services/productApi';
 import { fetchCartCount, addToCart } from '../services/cartApi';
-import { FiShoppingCart, FiUser, FiChevronDown, FiLogOut, FiPlus, FiCheck, FiShoppingBag } from 'react-icons/fi';
+import { FiShoppingCart, FiUser, FiChevronDown, FiLogOut, FiPlus, FiCheck, FiShoppingBag, FiActivity } from 'react-icons/fi';
 
 export default function Home() {
   const { token, user, logout } = useAuth();
@@ -121,6 +121,12 @@ export default function Home() {
                   <span className="dropdown-email">{user?.email}</span>
                 </div>
                 <div className="dropdown-divider" />
+                {user?.role?.toUpperCase() === 'ADMIN' && (
+                  <button className="dropdown-item" onClick={() => { setDropdownOpen(false); navigate('/admin/dashboard'); }} style={{ color: '#8b5cf6', fontWeight: 600 }}>
+                    <FiActivity size={16} />
+                    Admin Dashboard
+                  </button>
+                )}
                 <button className="dropdown-item" onClick={() => { setDropdownOpen(false); navigate('/profile'); }}>
                   <FiUser size={16} />
                   Profile

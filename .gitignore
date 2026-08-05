@@ -2,6 +2,11 @@
 .DS_Store
 **/.DS_Store
 
+# Local secrets and environment files
+.env
+.env.*
+backend/src/main/resources/application-local.properties
+
 # Java/Maven build output
 backend/target/
 
